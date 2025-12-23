@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChillBS Bot - Le Bot Discord Ultime</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #5865F2;
+            --secondary: #00D9FF;
+            --accent: #FF00FF;
+            --dark: #0a0e27;
+            --darker: #050814;
+            --text: #ffffff;
+            --text-dim: #b9bbbe;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--darker);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Particules Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* Gradient animé */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(88, 101, 242, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(0, 217, 255, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            animation: gradientMove 15s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        nav.scrolled {
+            padding: 1rem 5%;
+            background: rgba(10, 14, 39, 0.95);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5%;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 0 30px rgba(88, 101, 242, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(88, 101, 242, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 5rem 5%;
+            background: rgba(10, 14, 39, 0.5);
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 40px rgba(88, 101, 242, 0.2);
+        }
+
+        .stat-card i {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            margin-top: 0.5rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            margin-bottom: 4rem;
+        }
+
+        .features-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(88, 101, 242, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card p {
+            color: var(--text-dim);
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Commands Section */
+        .commands {
+            padding: 8rem 5%;
+            background: rgba(10, 14, 39, 0.5);
+        }
+
+        .commands-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .command-card {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .command-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .command-name {
+            font-family: 'Courier New', monospace;
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .command-desc {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 5%;
+            background: rgba(5, 8, 20, 0.8);
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            color: var(--text);
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-links a:hover {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(88, 101, 242, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .stats-container,
+            .features-grid,
+            .commands-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* Scroll animations */
+        [data-aos] {
+            opacity: 0;
+            transition-property: opacity, transform;
+        }
+
+        [data-aos].aos-animate {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particules -->
+    <div id="particles-js"></div>
+
+    <!-- Navbar -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                ChillBS
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Accueil</a></li>
+                <li><a href="#features">Fonctionnalités</a></li>
+                <li><a href="#commands">Commandes</a></li>
+                <li><a href="#footer">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content" data-aos="fade-up">
+            <h1>ChillBS Bot</h1>
+            <p>Le bot Discord ultime avec IA conversationnelle, économie, jeux et modération avancée. Transforme ton serveur en une expérience interactive inoubliable ! 🚀</p>
+            <div class="cta-buttons">
+                <a href="https://discord.com/api/oauth2/authorize?client_id=1426448080680648775&permissions=8&scope=bot%20applications.commands" class="btn btn-primary" target="_blank">
+                    <i class="fab fa-discord"></i>
+                    Inviter le Bot
+                </a>
+                <a href="#features" class="btn btn-secondary">
+                    <i class="fas fa-star"></i>
+                    Découvrir
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="0">
+                <i class="fas fa-server"></i>
+                <div class="stat-number" data-target="1000">0</div>
+                <div class="stat-label">Serveurs</div>
+            </div>
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-users"></i>
+                <div class="stat-number" data-target="50000">0</div>
+                <div class="stat-label">Utilisateurs</div>
+            </div>
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-terminal"></i>
+                <div class="stat-number" data-target="25">0</div>
+                <div class="stat-label">Commandes</div>
+            </div>
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+                <i class="fas fa-bolt"></i>
+                <div class="stat-number" data-target="99">0</div>
+                <div class="stat-label">% Uptime</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2 class="section-title" data-aos="fade-up">Fonctionnalités Incroyables</h2>
+        <p class="section-subtitle" data-aos="fade-up">Tout ce dont tu as besoin pour un serveur parfait</p>
+        
+        <div class="features-grid">
+            <div class="feature-card" data-aos="zoom-in" data-aos-delay="0">
+                <i class="fas fa-robot feature-icon"></i>
+                <h3>IA Conversationnelle</h3>
+                <p>Discute avec une IA puissante propulsée par Groq. Obtiens des réponses instantanées et naturelles !</p>
+            </div>
+
+            <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
+                <i class="fas fa-coins feature-icon"></i>
+                <h3>Économie Complète</h3>
+                <p>Système de coins, boutique, travail, récompenses quotidiennes et bien plus encore !</p>
+            </div>
+
+            <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
+                <i class="fas fa-gamepad feature-icon"></i>
+                <h3>Mini-Jeux</h3>
+                <p>Pendu, Morpion, Pile ou Face... Amuse-toi avec tes amis et gagne des récompenses !</p>
+            </div>
+
+            <div class="feature-card" data-aos="zoom-in" data-aos-delay="300">
+                <i class="fas fa-shield-alt feature-icon"></i>
+                <h3>Modération Avancée</h3>
+                <p>Système de warns, mute, kick, ban avec validation admin. Anti-spam et anti-liens intégrés.</p>
+            </div>
+
+            <div class="feature-card" data-aos="zoom-in" data-aos-delay="400">
+                <i class="fas fa-trophy feature-icon"></i>
+                <h3>Succès & XP</h3>
+                <p>Gagne de l'XP en chattant, débloque des succès et obtiens des récompenses automatiques !</p>
+            </div>
+
+            <div class="feature-card" data-aos="zoom-in" data-aos-delay="500">
+                <i class="fas fa-ticket-alt feature-icon"></i>
+                <h3>Tickets & Support</h3>
+                <p>Système de tickets professionnel pour gérer les demandes de tes membres efficacement.</p>
+            </div>
+
+            <div class="feature-card" data-aos="zoom-in" data-aos-delay="600">
+                <i class="fas fa-chart-line feature-icon"></i>
+                <h3>Statistiques</h3>
+                <p>Leaderboard, classements, statistiques détaillées par membre et bien plus.</p>
+            </div>
+
+            <div class="feature-card" data-aos="zoom-in" data-aos-delay="700">
+                <i class="fas fa-dice feature-icon"></i>
+                <h3>Loto Hebdomadaire</h3>
+                <p>Participe au loto chaque semaine et tente de gagner des récompenses exclusives !</p>
+            </div>
+
+            <div class="feature-card" data-aos="zoom-in" data-aos-delay="800">
+                <i class="fas fa-palette feature-icon"></i>
+                <h3>100% Personnalisable</h3>
+                <p>Configure le bot selon tes besoins avec des commandes simples et intuitives.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commands Section -->
+    <section class="commands" id="commands">
+        <h2 class="section-title" data-aos="fade-up">Commandes Populaires</h2>
+        <p class="section-subtitle" data-aos="fade-up">Découvre quelques-unes des commandes disponibles</p>
+        
+        <div class="commands-grid">
+            <div class="command-card" data-aos="fade-right" data-aos-delay="0">
+                <div class="command-name">/ia &lt;message&gt;</div>
+                <div class="command-desc">Parle avec l'intelligence artificielle</div>
+            </div>
+            <div class="command-card" data-aos="fade-right" data-aos-delay="50">
+                <div class="command-name">/balance</div>
+                <div class="command-desc">Voir ton argent et tes coins</div>
+            </div>
+            <div class="command-card" data-aos="fade-right" data-aos-delay="100">
+                <div class="command-name">/daily</div>
+                <div class="command-desc">Récompense quotidienne gratuite</div>
+            </div>
+            <div class="command-card" data-aos="fade-right" data-aos-delay="150">
+                <div class="command-name">/work</div>
+                <div class="command-desc">Travailler pour gagner des coins</div>
+            </div>
+            <div class="command-card" data-aos="fade-right" data-aos-delay="200">
+                <div class="command-name">/coinflip pile 100</div>
+                <div class="command-desc">Parier des coins sur pile ou face</div>
+            </div>
+            <div class="command-card" data-aos="fade-right" data-aos-delay="250">
+                <div class="command-name">/pendu</div>
+                <div class="command-desc">Jouer au jeu du pendu</div>
+            </div>
+            <div class="command-card" data-aos="fade-right" data-aos-delay="300">
+                <div class="command-name">/morpion @user</div>
+                <div class="command-desc">Défier quelqu'un au morpion</div>
+            </div>
+            <div class="command-card" data-aos="fade-right" data-aos-delay="350">
+                <div class="command-name">/blague</div>
+                <div class="command-desc">Recevoir une blague aléatoire</div>
+            </div>
+            <div class="command-card" data-aos="fade-right" data-aos-delay="400">
+                <div class="command-name">!level</div>
+                <div class="command-desc">Voir ton niveau et ton XP</div>
+            </div>
+            <div class="command-card" data-aos="fade-right" data-aos-delay="450">
+                <div class="command-name">!leaderboard</div>
+                <div class="command-desc">Top 10 des membres les plus actifs</div>
+            </div>
+            <div class="command-card" data-aos="fade-right" data-aos-delay="500">
+                <div class="command-name">/shop</div>
+                <div class="command-desc">Voir la boutique et les items</div>
+            </div>
+            <div class="command-card" data-aos="fade-right" data-aos-delay="550">
+                <div class="command-name">/help</div>
+                <div class="command-desc">Afficher toutes les commandes</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="footer-content">
+            <div class="logo" style="justify-content: center; margin-bottom: 2rem;">
+                <i class="fas fa-robot"></i>
+                ChillBS Bot
+            </div>
+            
+            <div class="social-links">
+                <a href="https://discord.gg/ChillBS target="_blank"><i class="fab fa-discord"></i></a>
+            </div>
+            
+            <p style="color: var(--text-dim); margin-top: 2rem;">
+                © 2024 ChillBS Bot. Tous droits réservés.<br>
+                Made with ❤️ by <span style="color: var(--primary);">Toi</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialisation AOS (Animate On Scroll)
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+        // Particules
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#5865F2' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#5865F2',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: true, mode: 'push' },
+                    resize: true
+                },
+                modes: {
+                    repulse: { distance: 100, duration: 0.4 },
+                    push: { particles_nb: 4 }
+                }
+            },
+            retina_detect: true
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Counter animation
+        function animateCounter(element, target, duration = 2000) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    element.textContent = target.toLocaleString();
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(start).toLocaleString();
+                }
+            }, 16);
+        }
+
+        // Démarrer les compteurs quand on arrive sur la section
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const numbers = entry.target.querySelectorAll('.stat-number');
+                    numbers.forEach(num => {
+                        const target = parseInt(num.getAttribute('data-target'));
+                        animateCounter(num, target);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        observer.observe(document.querySelector('.stats'));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
