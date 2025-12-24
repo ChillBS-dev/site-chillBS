@@ -19,10 +19,13 @@
             --primary: #5865F2;
             --secondary: #00D9FF;
             --accent: #FF00FF;
+            --gold: #FFD700;
             --dark: #0a0e27;
             --darker: #050814;
             --text: #ffffff;
             --text-dim: #b9bbbe;
+            --success: #43B581;
+            --danger: #F04747;
         }
 
         body {
@@ -32,7 +35,6 @@
             overflow-x: hidden;
         }
 
-        /* Particules Background */
         #particles-js {
             position: fixed;
             width: 100%;
@@ -42,7 +44,6 @@
             z-index: -1;
         }
 
-        /* Gradient animé */
         body::before {
             content: '';
             position: fixed;
@@ -62,7 +63,6 @@
             50% { opacity: 0.8; transform: scale(1.1); }
         }
 
-        /* Navbar */
         nav {
             position: fixed;
             top: 0;
@@ -97,12 +97,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-        }
-
-        .logo i {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            cursor: pointer;
         }
 
         .nav-links {
@@ -117,6 +112,7 @@
             font-weight: 500;
             transition: all 0.3s;
             position: relative;
+            cursor: pointer;
         }
 
         .nav-links a::after {
@@ -134,7 +130,6 @@
             width: 100%;
         }
 
-        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -211,7 +206,6 @@
             transform: translateY(-3px);
         }
 
-        /* Stats Section */
         .stats {
             padding: 5rem 5%;
             background: rgba(10, 14, 39, 0.5);
@@ -263,7 +257,6 @@
             margin-top: 0.5rem;
         }
 
-        /* Features Section */
         .features {
             padding: 8rem 5%;
         }
@@ -350,48 +343,300 @@
             z-index: 1;
         }
 
-        /* Commands Section */
-        .commands {
+        /* PREMIUM SECTION */
+        .premium {
             padding: 8rem 5%;
             background: rgba(10, 14, 39, 0.5);
         }
 
-        .commands-grid {
+        .pricing-grid {
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
         }
 
-        .command-card {
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.03);
+        .pricing-card {
+            padding: 3rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
-            border-radius: 15px;
+            border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
-        .command-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--primary);
-            transform: translateX(5px);
+        .pricing-card.featured {
+            border: 2px solid var(--gold);
+            transform: scale(1.05);
         }
 
-        .command-name {
-            font-family: 'Courier New', monospace;
-            color: var(--secondary);
-            font-weight: 600;
+        .pricing-card.featured::before {
+            content: 'POPULAIRE';
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: linear-gradient(135deg, var(--gold), #FFA500);
+            padding: 5px 50px;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(88, 101, 242, 0.3);
+        }
+
+        .pricing-card.featured:hover {
+            transform: translateY(-10px) scale(1.05);
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .plan-price {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
         }
 
-        .command-desc {
+        .plan-price.gold {
+            background: linear-gradient(135deg, var(--gold), #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .plan-period {
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .plan-features li {
+            padding: 0.8rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-dim);
+        }
+
+        .plan-features li i {
+            color: var(--success);
+        }
+
+        .plan-features li.disabled {
+            opacity: 0.3;
+        }
+
+        .plan-features li.disabled i {
+            color: var(--danger);
+        }
+
+        /* CONFIG SECTION */
+        .config {
+            padding: 8rem 5%;
+        }
+
+        .config-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .config-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: transparent;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .config-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(88, 101, 242, 0.3);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 0.5rem;
             color: var(--text-dim);
             font-size: 0.9rem;
         }
 
-        /* Footer */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .command-item {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .command-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary);
+        }
+
+        .command-info h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        .command-info p {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .save-btn {
+            margin-top: 2rem;
+            width: 100%;
+        }
+
         footer {
             padding: 3rem 5%;
             background: rgba(5, 8, 20, 0.8);
@@ -431,7 +676,6 @@
             box-shadow: 0 10px 30px rgba(88, 101, 242, 0.4);
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 3rem;
@@ -449,49 +693,39 @@
                 font-size: 2.5rem;
             }
 
-            .stats-container,
-            .features-grid,
-            .commands-grid {
+            .pricing-grid,
+            .config-grid {
                 grid-template-columns: 1fr;
             }
 
-            .cta-buttons {
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .config-tabs {
                 flex-direction: column;
             }
-        }
-
-        /* Scroll animations */
-        [data-aos] {
-            opacity: 0;
-            transition-property: opacity, transform;
-        }
-
-        [data-aos].aos-animate {
-            opacity: 1;
         }
     </style>
 </head>
 <body>
-    <!-- Particules -->
     <div id="particles-js"></div>
 
-    <!-- Navbar -->
     <nav id="navbar">
         <div class="nav-container">
-            <div class="logo">
+            <div class="logo" onclick="scrollToSection('home')">
                 <i class="fas fa-robot"></i>
                 ChillBS
             </div>
             <ul class="nav-links">
-                <li><a href="#home">Accueil</a></li>
-                <li><a href="#features">Fonctionnalités</a></li>
-                <li><a href="#commands">Commandes</a></li>
-                <li><a href="#footer">Contact</a></li>
+                <li><a onclick="scrollToSection('home')">Accueil</a></li>
+                <li><a onclick="scrollToSection('features')">Fonctionnalités</a></li>
+                <li><a onclick="scrollToSection('premium')">Premium</a></li>
+                <li><a onclick="scrollToSection('config')">Configurer</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-content" data-aos="fade-up">
             <h1>ChillBS Bot</h1>
@@ -501,15 +735,14 @@
                     <i class="fab fa-discord"></i>
                     Inviter le Bot
                 </a>
-                <a href="#features" class="btn btn-secondary">
-                    <i class="fas fa-star"></i>
-                    Découvrir
+                <a onclick="scrollToSection('config')" class="btn btn-secondary">
+                    <i class="fas fa-cog"></i>
+                    Configurer
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Stats Section -->
     <section class="stats">
         <div class="stats-container">
             <div class="stat-card" data-aos="fade-up" data-aos-delay="0">
@@ -535,7 +768,6 @@
         </div>
     </section>
 
-    <!-- Features Section -->
     <section class="features" id="features">
         <h2 class="section-title" data-aos="fade-up">Fonctionnalités Incroyables</h2>
         <p class="section-subtitle" data-aos="fade-up">Tout ce dont tu as besoin pour un serveur parfait</p>
@@ -576,85 +808,436 @@
                 <h3>Tickets & Support</h3>
                 <p>Système de tickets professionnel pour gérer les demandes de tes membres efficacement.</p>
             </div>
-
-            <div class="feature-card" data-aos="zoom-in" data-aos-delay="600">
-                <i class="fas fa-chart-line feature-icon"></i>
-                <h3>Statistiques</h3>
-                <p>Leaderboard, classements, statistiques détaillées par membre et bien plus.</p>
-            </div>
-
-            <div class="feature-card" data-aos="zoom-in" data-aos-delay="700">
-                <i class="fas fa-dice feature-icon"></i>
-                <h3>Loto Hebdomadaire</h3>
-                <p>Participe au loto chaque semaine et tente de gagner des récompenses exclusives !</p>
-            </div>
-
-            <div class="feature-card" data-aos="zoom-in" data-aos-delay="800">
-                <i class="fas fa-palette feature-icon"></i>
-                <h3>100% Personnalisable</h3>
-                <p>Configure le bot selon tes besoins avec des commandes simples et intuitives.</p>
-            </div>
         </div>
     </section>
 
-    <!-- Commands Section -->
-    <section class="commands" id="commands">
-        <h2 class="section-title" data-aos="fade-up">Commandes Populaires</h2>
-        <p class="section-subtitle" data-aos="fade-up">Découvre quelques-unes des commandes disponibles</p>
+    <!-- SECTION PREMIUM -->
+    <section class="premium" id="premium">
+        <h2 class="section-title" data-aos="fade-up">Plans Premium</h2>
+        <p class="section-subtitle" data-aos="fade-up">Débloque tout le potentiel de ChillBS Bot</p>
         
-        <div class="commands-grid">
-            <div class="command-card" data-aos="fade-right" data-aos-delay="0">
-                <div class="command-name">/ia &lt;message&gt;</div>
-                <div class="command-desc">Parle avec l'intelligence artificielle</div>
+        <div class="pricing-grid">
+            <div class="pricing-card" data-aos="zoom-in">
+                <div class="plan-name">Gratuit</div>
+                <div class="plan-price">0€</div>
+                <div class="plan-period">Pour toujours</div>
+                <ul class="plan-features">
+                    <li><i class="fas fa-check"></i> Toutes les commandes de base</li>
+                    <li><i class="fas fa-check"></i> Système d'économie</li>
+                    <li><i class="fas fa-check"></i> 3 mini-jeux</li>
+                    <li><i class="fas fa-check"></i> Modération basique</li>
+                    <li><i class="fas fa-check"></i> Système XP</li>
+                    <li class="disabled"><i class="fas fa-times"></i> IA illimitée</li>
+                    <li class="disabled"><i class="fas fa-times"></i> Statistiques avancées</li>
+                    <li class="disabled"><i class="fas fa-times"></i> Support prioritaire</li>
+                </ul>
+                <button class="btn btn-secondary" style="width: 100%;">Plan actuel</button>
             </div>
-            <div class="command-card" data-aos="fade-right" data-aos-delay="50">
-                <div class="command-name">/balance</div>
-                <div class="command-desc">Voir ton argent et tes coins</div>
+
+            <div class="pricing-card featured" data-aos="zoom-in" data-aos-delay="100">
+                <div class="plan-name">Premium</div>
+                <div class="plan-price plan-price gold">4.99€</div>
+                <div class="plan-period">par mois</div>
+                <ul class="plan-features">
+                    <li><i class="fas fa-check"></i> Tout du plan Gratuit</li>
+                    <li><i class="fas fa-check"></i> IA illimitée (Groq Premium)</li>
+                    <li><i class="fas fa-check"></i> Statistiques détaillées</li>
+                    <li><i class="fas fa-check"></i> Badge Premium</li>
+                    <li><i class="fas fa-check"></i> +5 jeux exclusifs</li>
+                    <li><i class="fas fa-check"></i> Personnalisation avancée</li>
+                    <li><i class="fas fa-check"></i> Absence de publicités</li>
+                    <li><i class="fas fa-check"></i> Support prioritaire 24/7</li>
+                </ul>
+                <button class="btn btn-primary" style="width: 100%; background: linear-gradient(135deg, var(--gold), #FFA500);">Obtenir Premium</button>
             </div>
-            <div class="command-card" data-aos="fade-right" data-aos-delay="100">
-                <div class="command-name">/daily</div>
-                <div class="command-desc">Récompense quotidienne gratuite</div>
-            </div>
-            <div class="command-card" data-aos="fade-right" data-aos-delay="150">
-                <div class="command-name">/work</div>
-                <div class="command-desc">Travailler pour gagner des coins</div>
-            </div>
-            <div class="command-card" data-aos="fade-right" data-aos-delay="200">
-                <div class="command-name">/coinflip pile 100</div>
-                <div class="command-desc">Parier des coins sur pile ou face</div>
-            </div>
-            <div class="command-card" data-aos="fade-right" data-aos-delay="250">
-                <div class="command-name">/pendu</div>
-                <div class="command-desc">Jouer au jeu du pendu</div>
-            </div>
-            <div class="command-card" data-aos="fade-right" data-aos-delay="300">
-                <div class="command-name">/morpion @user</div>
-                <div class="command-desc">Défier quelqu'un au morpion</div>
-            </div>
-            <div class="command-card" data-aos="fade-right" data-aos-delay="350">
-                <div class="command-name">/blague</div>
-                <div class="command-desc">Recevoir une blague aléatoire</div>
-            </div>
-            <div class="command-card" data-aos="fade-right" data-aos-delay="400">
-                <div class="command-name">!level</div>
-                <div class="command-desc">Voir ton niveau et ton XP</div>
-            </div>
-            <div class="command-card" data-aos="fade-right" data-aos-delay="450">
-                <div class="command-name">!leaderboard</div>
-                <div class="command-desc">Top 10 des membres les plus actifs</div>
-            </div>
-            <div class="command-card" data-aos="fade-right" data-aos-delay="500">
-                <div class="command-name">/shop</div>
-                <div class="command-desc">Voir la boutique et les items</div>
-            </div>
-            <div class="command-card" data-aos="fade-right" data-aos-delay="550">
-                <div class="command-name">/help</div>
-                <div class="command-desc">Afficher toutes les commandes</div>
+
+            <div class="pricing-card" data-aos="zoom-in" data-aos-delay="200">
+                <div class="plan-name">Entreprise</div>
+                <div class="plan-price">Custom</div>
+                <div class="plan-period">Sur mesure</div>
+                <ul class="plan-features">
+                    <li><i class="fas fa-check"></i> Tout du plan Premium</li>
+                    <li><i class="fas fa-check"></i> Bot dédié privé</li>
+                    <li><i class="fas fa-check"></i> Commandes personnalisées</li>
+                    <li><i class="fas fa-check"></i> API access</li>
+                    <li><i class="fas fa-check"></i> Dashboard web</li>
+                    <li><i class="fas fa-check"></i> Intégrations tierces</li>
+                    <li><i class="fas fa-check"></i> Formation personnalisée</li>
+                    <li><i class="fas fa-check"></i> Manager dédié</li>
+                </ul>
+                <button class="btn btn-secondary" style="width: 100%;">Nous contacter</button>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- SECTION CONFIGURATION -->
+    <section class="config" id="config">
+        <h2 class="section-title" data-aos="fade-up">Configurer ChillBS</h2>
+        <p class="section-subtitle" data-aos="fade-up">Personnalise le bot selon tes besoins</p>
+        
+        <div class="config-container" data-aos="fade-up">
+            <div class="config-tabs">
+                <button class="tab-btn active" onclick="switchTab('general')">
+                    <i class="fas fa-cog"></i> Général
+                </button>
+                <button class="tab-btn" onclick="switchTab('commands')">
+                    <i class="fas fa-terminal"></i> Commandes
+                </button>
+                <button class="tab-btn" onclick="switchTab('channels')">
+                    <i class="fas fa-hashtag"></i> Salons
+                </button>
+                <button class="tab-btn" onclick="switchTab('moderation')">
+                    <i class="fas fa-shield-alt"></i> Modération
+                </button>
+                <button class="tab-btn" onclick="switchTab('economy')">
+                    <i class="fas fa-coins"></i> Économie
+                </button>
+            </div>
+
+            <!-- TAB GENERAL -->
+            <div class="tab-content active" id="tab-general">
+                <div class="config-panel">
+                    <h3 style="margin-bottom: 2rem;">⚙️ Configuration Générale</h3>
+                    
+                    <div class="form-group">
+                        <label>Préfixe du bot (optionnel)</label>
+                        <input type="text" placeholder="!" value="!">
+                        <small>Préfixe pour les commandes textuelles (ex: !level)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Langue du bot</label>
+                        <select>
+                            <option selected>Français 🇫🇷</option>
+                            <option>English 🇬🇧</option>
+                            <option>Español 🇪🇸</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 1rem;">
+                            <span>Mode Debug</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </label>
+                        <small>Affiche les logs détaillés dans la console</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 1rem;">
+                            <span>Messages de bienvenue</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </label>
+                    </div>
+
+                    <button class="btn btn-primary save-btn">
+                        <i class="fas fa-save"></i> Sauvegarder les modifications
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB COMMANDES -->
+            <div class="tab-content" id="tab-commands">
+                <div class="config-panel">
+                    <h3 style="margin-bottom: 2rem;">🎮 Gestion des Commandes</h3>
+                    
+                    <div class="config-grid">
+                        <div class="command-item">
+                            <div class="command-info">
+                                <h4>/ia</h4>
+                                <p>Intelligence artificielle</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="command-item">
+                            <div class="command-info">
+                                <h4>/balance</h4>
+                                <p>Voir son argent</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="command-item">
+                            <div class="command-info">
+                                <h4>/daily</h4>
+                                <p>Récompense quotidienne</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="command-item">
+                            <div class="command-info">
+                                <h4>/work</h4>
+                                <p>Travailler pour des coins</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="command-item">
+                            <div class="command-info">
+                                <h4>/coinflip</h4>
+                                <p>Pile ou Face</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="command-item">
+                            <div class="command-info">
+                                <h4>/pendu</h4>
+                                <p>Jeu du pendu</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="command-item">
+                            <div class="command-info">
+                                <h4>/morpion</h4>
+                                <p>Jouer au morpion</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="command-item">
+                            <div class="command-info">
+                                <h4>/blague</h4>
+                                <p>Blague aléatoire</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary save-btn">
+                        <i class="fas fa-save"></i> Sauvegarder
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB SALONS -->
+            <div class="tab-content" id="tab-channels">
+                <div class="config-panel">
+                    <h3 style="margin-bottom: 2rem;">#️⃣ Configuration des Salons</h3>
+                    
+                    <div class="form-group">
+                        <label>📩 Salon Tickets</label>
+                        <input type="text" placeholder="#tickets" value="🎟️・tickets">
+                        <small>Où les membres peuvent créer des tickets</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>👨‍⚖️ Salon Staff (tickets en attente)</label>
+                        <input type="text" placeholder="#ticket-staff" value="ticket-staff👨‍⚖️🎟️">
+                        <small>Validation des tickets par le staff</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>💡 Salon Suggestions</label>
+                        <input type="text" placeholder="#suggestions" value="🗳️・suggestions">
+                        <small>Les membres proposent des idées</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>📊 Salon Sondages</label>
+                        <input type="text" placeholder="#sondages" value="📩・sondage">
+                        <small>Création de sondages communautaires</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>🆙 Salon Niveaux</label>
+                        <input type="text" placeholder="#niveaux" value="🆙・niveaux">
+                        <small>Annonces de level up</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>🎰 Salon Loto</label>
+                        <input type="text" placeholder="#loto" value="🎰・loto">
+                        <small>Loto hebdomadaire automatique</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>🏆 Salon Succès</label>
+                        <input type="text" placeholder="#succès" value="✌️・succès">
+                        <small>Annonces de succès débloqués</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>🔐 Salon Logs</label>
+                        <input type="text" placeholder="#logs" value="logs🔐">
+                        <small>Logs de modération (staff only)</small>
+                    </div>
+
+                    <button class="btn btn-primary save-btn">
+                        <i class="fas fa-save"></i> Sauvegarder
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB MODERATION -->
+            <div class="tab-content" id="tab-moderation">
+                <div class="config-panel">
+                    <h3 style="margin-bottom: 2rem;">🛡️ Configuration Modération</h3>
+                    
+                    <div class="form-group">
+                        <label>Rôle Staff</label>
+                        <input type="text" placeholder="@Staff" value="Staff 👨‍⚖️">
+                        <small>Rôle qui peut utiliser les commandes de modération</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Rôle Admin</label>
+                        <input type="text" placeholder="@Admin" value="Admin">
+                        <small>Rôle qui peut valider les actions de modération</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Rôle Mute</label>
+                        <input type="text" placeholder="@Muted" value="Muted">
+                        <small>Rôle donné lors d'un mute</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 1rem;">
+                            <span>Anti-Spam activé</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </label>
+                        <small>Détecte et sanctionne le spam automatiquement</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 1rem;">
+                            <span>Anti-Liens activé</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </label>
+                        <small>Bloque les liens dans les salons non autorisés</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 1rem;">
+                            <span>Filtre de gros mots</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </label>
+                        <small>Supprime automatiquement les insultes</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mots interdits (séparés par des virgules)</label>
+                        <textarea placeholder="putain, merde, con...">putain, merde, con, connard</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Auto-mute après X warns</label>
+                        <input type="number" value="3" min="1" max="10">
+                        <small>Nombre de warns avant un mute automatique</small>
+                    </div>
+
+                    <button class="btn btn-primary save-btn">
+                        <i class="fas fa-save"></i> Sauvegarder
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB ECONOMIE -->
+            <div class="tab-content" id="tab-economy">
+                <div class="config-panel">
+                    <h3 style="margin-bottom: 2rem;">💰 Configuration Économie</h3>
+                    
+                    <div class="form-group">
+                        <label>Coins par message</label>
+                        <input type="number" value="1" min="0" max="100">
+                        <small>Combien de coins gagnés par message envoyé</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>XP par message</label>
+                        <input type="number" value="10" min="0" max="100">
+                        <small>Combien d'XP gagnés par message</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Récompense /daily (min - max)</label>
+                        <div style="display: flex; gap: 1rem;">
+                            <input type="number" value="100" min="0" placeholder="Min">
+                            <input type="number" value="300" min="0" placeholder="Max">
+                        </div>
+                        <small>Montant aléatoire pour la commande /daily</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Récompense /work (min - max)</label>
+                        <div style="display: flex; gap: 1rem;">
+                            <input type="number" value="50" min="0" placeholder="Min">
+                            <input type="number" value="150" min="0" placeholder="Max">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Rôle VIP (attribué au niveau X)</label>
+                        <input type="number" value="5" min="1" max="100">
+                        <small>Niveau requis pour obtenir le rôle VIP automatiquement</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nom du rôle VIP</label>
+                        <input type="text" value="Membre VIP">
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 1rem;">
+                            <span>Loto hebdomadaire activé</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </label>
+                        <small>Lance automatiquement un loto chaque semaine</small>
+                    </div>
+
+                    <button class="btn btn-primary save-btn">
+                        <i class="fas fa-save"></i> Sauvegarder
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer id="footer">
         <div class="footer-content">
             <div class="logo" style="justify-content: center; margin-bottom: 2rem;">
@@ -663,28 +1246,27 @@
             </div>
             
             <div class="social-links">
-                <a href="https://discord.gg/ChillBS target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="https://discord.gg/ton-serveur" target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="https://github.com/ton-github" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://twitter.com/ton-twitter" target="_blank"><i class="fab fa-twitter"></i></a>
             </div>
             
             <p style="color: var(--text-dim); margin-top: 2rem;">
                 © 2024 ChillBS Bot. Tous droits réservés.<br>
-                Made with ❤️ by <span style="color: var(--primary);">Toi</span>
+                Made with ❤️ for Discord Communities
             </p>
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
-        // Initialisation AOS (Animate On Scroll)
         AOS.init({
             duration: 1000,
             once: true,
             offset: 100
         });
 
-        // Particules
         particlesJS('particles-js', {
             particles: {
                 number: { value: 80, density: { enable: true, value_area: 800 } },
@@ -701,30 +1283,18 @@
                 },
                 move: {
                     enable: true,
-                    speed: 2,
-                    direction: 'none',
-                    random: false,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false
+                    speed: 2
                 }
             },
             interactivity: {
                 detect_on: 'canvas',
                 events: {
                     onhover: { enable: true, mode: 'repulse' },
-                    onclick: { enable: true, mode: 'push' },
-                    resize: true
-                },
-                modes: {
-                    repulse: { distance: 100, duration: 0.4 },
-                    push: { particles_nb: 4 }
+                    onclick: { enable: true, mode: 'push' }
                 }
-            },
-            retina_detect: true
+            }
         });
 
-        // Navbar scroll effect
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
@@ -734,7 +1304,6 @@
             }
         });
 
-        // Counter animation
         function animateCounter(element, target, duration = 2000) {
             let start = 0;
             const increment = target / (duration / 16);
@@ -749,12 +1318,6 @@
             }, 16);
         }
 
-        // Démarrer les compteurs quand on arrive sur la section
-        const observerOptions = {
-            threshold: 0.5,
-            rootMargin: '0px'
-        };
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -766,18 +1329,47 @@
                     observer.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.5 });
 
         observer.observe(document.querySelector('.stats'));
 
         // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById('tab-' + tabName).classList.add('active');
+            
+            // Mark button as active
+            event.target.closest('.tab-btn').classList.add('active');
+        }
+
+        // Save button alerts
+        document.querySelectorAll('.save-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Sauvegardé !';
+                btn.style.background = 'linear-gradient(135deg, var(--success), #2ecc71)';
+                
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-save"></i> Sauvegarder les modifications';
+                    btn.style.background = '';
+                }, 2000);
             });
         });
     </script>
