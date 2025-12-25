@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChillBS Bot - Le Bot Discord Ultime</title>
+    <title>ChillBS Bot - Ultimate Discord Bot</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -52,17 +52,17 @@
             width: 100%;
             height: 100%;
             background: radial-gradient(circle at 20% 50%, rgba(88, 101, 242, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 40% 80%, rgba(0, 217, 255, 0.1) 0%, transparent 50%);
+                        radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
             z-index: -1;
             animation: gradientMove 15s ease infinite;
         }
 
         @keyframes gradientMove {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.1); }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
         }
 
+        /* NAVBAR */
         nav {
             position: fixed;
             top: 0;
@@ -86,6 +86,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .logo {
@@ -100,71 +101,220 @@
             cursor: pointer;
         }
 
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
         .nav-links {
             display: flex;
             gap: 2rem;
             list-style: none;
+            align-items: center;
         }
 
         .nav-links a {
             color: var(--text);
             text-decoration: none;
             font-weight: 500;
-            transition: all 0.3s;
-            position: relative;
             cursor: pointer;
+            transition: color 0.3s;
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transition: width 0.3s;
+        .nav-links a:hover {
+            color: var(--primary);
         }
 
-        .nav-links a:hover::after {
-            width: 100%;
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text);
+            font-weight: 600;
+            transition: all 0.3s;
         }
 
-        .hero {
-            min-height: 100vh;
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .auth-btns {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .auth-btns button {
+            padding: 0.7rem 1.5rem;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-login {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-login:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-signup {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(88, 101, 242, 0.4);
+        }
+
+        .user-menu {
+            display: none;
+            position: relative;
+        }
+
+        .user-menu.active {
+            display: block;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0 5%;
-            text-align: center;
+            cursor: pointer;
+            font-weight: 700;
         }
 
-        .hero-content {
-            max-width: 900px;
+        .dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1rem;
+            min-width: 200px;
+            display: none;
         }
 
-        .hero h1 {
-            font-size: 5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+        .dropdown.show {
+            display: block;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.7rem;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .dropdown a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .modal h2 {
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-            line-height: 1.2;
         }
 
-        .hero p {
-            font-size: 1.3rem;
-            color: var(--text-dim);
-            margin-bottom: 2rem;
-            line-height: 1.6;
+        .form-group {
+            margin-bottom: 1.5rem;
         }
 
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(88, 101, 242, 0.3);
         }
 
         .btn {
@@ -175,18 +325,16 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            position: relative;
-            overflow: hidden;
+            justify-content: center;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            box-shadow: 0 0 30px rgba(88, 101, 242, 0.4);
+            width: 100%;
         }
 
         .btn-primary:hover {
@@ -197,21 +345,65 @@
         .btn-secondary {
             background: rgba(255, 255, 255, 0.1);
             color: white;
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
+        .modal-switch {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--text-dim);
         }
 
+        .modal-switch a {
+            color: var(--primary);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5%;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-buttons .btn {
+            width: auto;
+        }
+
+        /* STATS */
         .stats {
             padding: 5rem 5%;
             background: rgba(10, 14, 39, 0.5);
         }
 
-        .stats-container {
+        .stats-grid {
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
@@ -231,7 +423,6 @@
 
         .stat-card:hover {
             transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.08);
             box-shadow: 0 10px 40px rgba(88, 101, 242, 0.2);
         }
 
@@ -252,11 +443,12 @@
         }
 
         .stat-label {
-            font-size: 1.1rem;
-            color: var(--text-dim);
             margin-top: 0.5rem;
+            color: var(--text-dim);
+            font-size: 1.1rem;
         }
 
+        /* FEATURES */
         .features {
             padding: 8rem 5%;
         }
@@ -293,28 +485,10 @@
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .feature-card:hover::before {
-            opacity: 0.1;
         }
 
         .feature-card:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-10px);
             border-color: var(--primary);
             box-shadow: 0 20px 60px rgba(88, 101, 242, 0.3);
         }
@@ -325,25 +499,19 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 1.5rem;
-            position: relative;
-            z-index: 1;
         }
 
         .feature-card h3 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
-            position: relative;
-            z-index: 1;
         }
 
         .feature-card p {
             color: var(--text-dim);
             line-height: 1.6;
-            position: relative;
-            z-index: 1;
         }
 
-        /* PREMIUM SECTION */
+        /* PREMIUM */
         .premium {
             padding: 8rem 5%;
             background: rgba(10, 14, 39, 0.5);
@@ -355,7 +523,6 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            margin-top: 4rem;
         }
 
         .pricing-card {
@@ -366,7 +533,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s;
             position: relative;
-            overflow: hidden;
         }
 
         .pricing-card.featured {
@@ -388,7 +554,6 @@
 
         .pricing-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(88, 101, 242, 0.3);
         }
 
         .pricing-card.featured:hover {
@@ -407,7 +572,6 @@
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
         }
 
         .plan-price.gold {
@@ -442,11 +606,7 @@
             opacity: 0.3;
         }
 
-        .plan-features li.disabled i {
-            color: var(--danger);
-        }
-
-        /* CONFIG SECTION */
+        /* CONFIG */
         .config {
             padding: 8rem 5%;
         }
@@ -454,189 +614,76 @@
         .config-container {
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+        }
+
+        .locked-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            z-index: 10;
+        }
+
+        .locked-content {
+            text-align: center;
+        }
+
+        .locked-content i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        .config-panel {
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .config-tabs {
             display: flex;
             gap: 1rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             flex-wrap: wrap;
-            justify-content: center;
         }
 
         .tab-btn {
-            padding: 1rem 2rem;
+            padding: 0.8rem 1.5rem;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             color: var(--text);
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 1rem;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
         .tab-btn:hover {
             background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
         }
 
         .tab-btn.active {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-color: transparent;
         }
 
         .tab-content {
             display: none;
-            animation: fadeIn 0.5s;
         }
 
         .tab-content.active {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .config-panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 3rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 2rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            color: var(--text);
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(88, 101, 242, 0.3);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .form-group small {
-            display: block;
-            margin-top: 0.5rem;
-            color: var(--text-dim);
-            font-size: 0.9rem;
-        }
-
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(255, 255, 255, 0.1);
-            transition: 0.4s;
-            border-radius: 34px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: 0.4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-
-        .config-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .command-item {
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
-        }
-
-        .command-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--primary);
-        }
-
-        .command-info h4 {
-            margin-bottom: 0.5rem;
-        }
-
-        .command-info p {
-            color: var(--text-dim);
-            font-size: 0.9rem;
-        }
-
-        .save-btn {
-            margin-top: 2rem;
-            width: 100%;
-        }
-
+        /* FOOTER */
         footer {
             padding: 3rem 5%;
             background: rgba(5, 8, 20, 0.8);
@@ -644,66 +691,19 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            margin: 2rem 0;
-        }
-
-        .social-links a {
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            color: var(--text);
-            font-size: 1.5rem;
-            transition: all 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .social-links a:hover {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(88, 101, 242, 0.4);
-        }
-
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 3rem;
             }
-
-            .hero p {
-                font-size: 1.1rem;
-            }
-
-            .nav-links {
+            .nav-links, .auth-btns {
                 display: none;
             }
-
-            .section-title {
-                font-size: 2.5rem;
-            }
-
-            .pricing-grid,
-            .config-grid {
-                grid-template-columns: 1fr;
-            }
-
             .pricing-card.featured {
                 transform: scale(1);
             }
-
-            .config-tabs {
-                flex-direction: column;
+            .section-title {
+                font-size: 2.5rem;
             }
         }
     </style>
@@ -711,56 +711,133 @@
 <body>
     <div id="particles-js"></div>
 
+    <!-- NAVBAR -->
     <nav id="navbar">
         <div class="nav-container">
             <div class="logo" onclick="scrollToSection('home')">
                 <i class="fas fa-robot"></i>
-                ChillBS
+                <span>ChillBS</span>
             </div>
-            <ul class="nav-links">
-                <li><a onclick="scrollToSection('home')">Accueil</a></li>
-                <li><a onclick="scrollToSection('features')">Fonctionnalités</a></li>
-                <li><a onclick="scrollToSection('premium')">Premium</a></li>
-                <li><a onclick="scrollToSection('config')">Configurer</a></li>
-            </ul>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a onclick="scrollToSection('home')" class="translate" data-key="nav.home">Accueil</a></li>
+                    <li><a onclick="scrollToSection('features')" class="translate" data-key="nav.features">Fonctionnalités</a></li>
+                    <li><a onclick="scrollToSection('premium')" class="translate" data-key="nav.premium">Premium</a></li>
+                    <li><a onclick="scrollToSection('config')" class="translate" data-key="nav.config">Configurer</a></li>
+                </ul>
+                <button class="lang-btn" onclick="toggleLanguage()">
+                    <i class="fas fa-globe"></i> <span id="lang-text">FR</span>
+                </button>
+                <div class="auth-btns">
+                    <button class="btn-login translate" data-key="nav.login" onclick="openModal('login')">Connexion</button>
+                    <button class="btn-signup translate" data-key="nav.signup" onclick="openModal('signup')">S'inscrire</button>
+                </div>
+                <div class="user-menu">
+                    <div class="user-avatar" onclick="toggleDropdown()">
+                        <span id="user-initial">U</span>
+                    </div>
+                    <div class="dropdown" id="dropdown">
+                        <a onclick="scrollToSection('config')"><i class="fas fa-cog"></i> <span class="translate" data-key="user.dashboard">Dashboard</span></a>
+                        <a onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span class="translate" data-key="user.logout">Déconnexion</span></a>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
+    <!-- LOGIN MODAL -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('login')">×</button>
+            <h2 class="translate" data-key="login.title">Connexion</h2>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="translate" data-key="login.email">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label class="translate" data-key="login.password">Mot de passe</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span class="translate" data-key="login.submit">Se connecter</span>
+                </button>
+            </form>
+            <div class="modal-switch">
+                <span class="translate" data-key="login.noaccount">Pas de compte ?</span>
+                <a onclick="switchModal('login', 'signup')" class="translate" data-key="login.signup">S'inscrire</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIGNUP MODAL -->
+    <div class="modal" id="signup-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('signup')">×</button>
+            <h2 class="translate" data-key="signup.title">Inscription</h2>
+            <form onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label class="translate" data-key="signup.username">Nom d'utilisateur</label>
+                    <input type="text" id="signup-username" required>
+                </div>
+                <div class="form-group">
+                    <label class="translate" data-key="signup.email">Email</label>
+                    <input type="email" id="signup-email" required>
+                </div>
+                <div class="form-group">
+                    <label class="translate" data-key="signup.password">Mot de passe</label>
+                    <input type="password" id="signup-password" required minlength="6">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i>
+                    <span class="translate" data-key="signup.submit">Créer un compte</span>
+                </button>
+            </form>
+            <div class="modal-switch">
+                <span class="translate" data-key="signup.hasaccount">Déjà un compte ?</span>
+                <a onclick="switchModal('signup', 'login')" class="translate" data-key="signup.login">Se connecter</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO -->
     <section class="hero" id="home">
-        <div class="hero-content" data-aos="fade-up">
+        <div>
             <h1>ChillBS Bot</h1>
-            <p>Le bot Discord ultime avec IA conversationnelle, économie, jeux et modération avancée. Transforme ton serveur en une expérience interactive inoubliable ! 🚀</p>
+            <p class="translate" data-key="hero.description">Le bot Discord ultime avec IA conversationnelle, économie, jeux et modération avancée. Transforme ton serveur en une expérience interactive inoubliable ! 🚀</p>
             <div class="cta-buttons">
                 <a href="https://discord.com/api/oauth2/authorize?client_id=1426448080680648775&permissions=8&scope=bot%20applications.commands" class="btn btn-primary" target="_blank">
                     <i class="fab fa-discord"></i>
-                    Inviter le Bot
+                    <span class="translate" data-key="hero.invite">Inviter le Bot</span>
                 </a>
-                <a onclick="scrollToSection('config')" class="btn btn-secondary">
+                <button class="btn btn-secondary" onclick="scrollToSection('config')">
                     <i class="fas fa-cog"></i>
-                    Configurer
-                </a>
+                    <span class="translate" data-key="hero.configure">Configurer</span>
+                </button>
             </div>
         </div>
     </section>
 
+    <!-- STATS -->
     <section class="stats">
-        <div class="stats-container">
-            <div class="stat-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="stats-grid">
+            <div class="stat-card">
                 <i class="fas fa-server"></i>
                 <div class="stat-number" data-target="1000">0</div>
-                <div class="stat-label">Serveurs</div>
+                <div class="stat-label translate" data-key="stats.servers">Serveurs</div>
             </div>
-            <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="stat-card">
                 <i class="fas fa-users"></i>
                 <div class="stat-number" data-target="50000">0</div>
-                <div class="stat-label">Utilisateurs</div>
+                <div class="stat-label translate" data-key="stats.users">Utilisateurs</div>
             </div>
-            <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="stat-card">
                 <i class="fas fa-terminal"></i>
                 <div class="stat-number" data-target="25">0</div>
-                <div class="stat-label">Commandes</div>
+                <div class="stat-label translate" data-key="stats.commands">Commandes</div>
             </div>
-            <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+            <div class="stat-card">
                 <i class="fas fa-bolt"></i>
                 <div class="stat-number" data-target="99">0</div>
                 <div class="stat-label">% Uptime</div>
@@ -768,610 +845,542 @@
         </div>
     </section>
 
+    <!-- FEATURES -->
     <section class="features" id="features">
-        <h2 class="section-title" data-aos="fade-up">Fonctionnalités Incroyables</h2>
-        <p class="section-subtitle" data-aos="fade-up">Tout ce dont tu as besoin pour un serveur parfait</p>
+        <h2 class="section-title translate" data-key="features.title">Fonctionnalités Incroyables</h2>
+        <p class="section-subtitle translate" data-key="features.subtitle">Tout ce dont tu as besoin pour un serveur parfait</p>
         
         <div class="features-grid">
-            <div class="feature-card" data-aos="zoom-in" data-aos-delay="0">
+            <div class="feature-card">
                 <i class="fas fa-robot feature-icon"></i>
-                <h3>IA Conversationnelle</h3>
-                <p>Discute avec une IA puissante propulsée par Groq. Obtiens des réponses instantanées et naturelles !</p>
+                <h3 class="translate" data-key="features.ai.title">IA Conversationnelle</h3>
+                <p class="translate" data-key="features.ai.desc">Discute avec une IA puissante propulsée par Groq. Obtiens des réponses instantanées et naturelles !</p>
             </div>
-
-            <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
+            <div class="feature-card">
                 <i class="fas fa-coins feature-icon"></i>
-                <h3>Économie Complète</h3>
-                <p>Système de coins, boutique, travail, récompenses quotidiennes et bien plus encore !</p>
+                <h3 class="translate" data-key="features.economy.title">Économie Complète</h3>
+                <p class="translate" data-key="features.economy.desc">Système de coins, boutique, travail, récompenses quotidiennes et bien plus encore !</p>
             </div>
-
-            <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
+            <div class="feature-card">
                 <i class="fas fa-gamepad feature-icon"></i>
-                <h3>Mini-Jeux</h3>
-                <p>Pendu, Morpion, Pile ou Face... Amuse-toi avec tes amis et gagne des récompenses !</p>
+                <h3 class="translate" data-key="features.games.title">Mini-Jeux</h3>
+                <p class="translate" data-key="features.games.desc">Pendu, Morpion, Pile ou Face... Amuse-toi avec tes amis et gagne des récompenses !</p>
             </div>
-
-            <div class="feature-card" data-aos="zoom-in" data-aos-delay="300">
+            <div class="feature-card">
                 <i class="fas fa-shield-alt feature-icon"></i>
-                <h3>Modération Avancée</h3>
-                <p>Système de warns, mute, kick, ban avec validation admin. Anti-spam et anti-liens intégrés.</p>
+                <h3 class="translate" data-key="features.moderation.title">Modération Avancée</h3>
+                <p class="translate" data-key="features.moderation.desc">Système de warns, mute, kick, ban avec validation admin. Anti-spam et anti-liens intégrés.</p>
             </div>
-
-            <div class="feature-card" data-aos="zoom-in" data-aos-delay="400">
+            <div class="feature-card">
                 <i class="fas fa-trophy feature-icon"></i>
-                <h3>Succès & XP</h3>
-                <p>Gagne de l'XP en chattant, débloque des succès et obtiens des récompenses automatiques !</p>
+                <h3 class="translate" data-key="features.achievements.title">Succès & XP</h3>
+                <p class="translate" data-key="features.achievements.desc">Gagne de l'XP en chattant, débloque des succès et obtiens des récompenses automatiques !</p>
             </div>
-
-            <div class="feature-card" data-aos="zoom-in" data-aos-delay="500">
+            <div class="feature-card">
                 <i class="fas fa-ticket-alt feature-icon"></i>
-                <h3>Tickets & Support</h3>
-                <p>Système de tickets professionnel pour gérer les demandes de tes membres efficacement.</p>
+                <h3 class="translate" data-key="features.tickets.title">Tickets & Support</h3>
+                <p class="translate" data-key="features.tickets.desc">Système de tickets professionnel pour gérer les demandes de tes membres efficacement.</p>
             </div>
         </div>
     </section>
 
-    <!-- SECTION PREMIUM -->
+    <!-- PREMIUM -->
     <section class="premium" id="premium">
-        <h2 class="section-title" data-aos="fade-up">Plans Premium</h2>
-        <p class="section-subtitle" data-aos="fade-up">Débloque tout le potentiel de ChillBS Bot</p>
+        <h2 class="section-title translate" data-key="premium.title">Plans Premium</h2>
+        <p class="section-subtitle translate" data-key="premium.subtitle">Débloque tout le potentiel de ChillBS Bot</p>
         
         <div class="pricing-grid">
-            <div class="pricing-card" data-aos="zoom-in">
-                <div class="plan-name">Gratuit</div>
+            <div class="pricing-card">
+                <div class="plan-name translate" data-key="plans.free.name">Gratuit</div>
                 <div class="plan-price">0€</div>
-                <div class="plan-period">Pour toujours</div>
+                <div class="plan-period translate" data-key="plans.free.period">Pour toujours</div>
                 <ul class="plan-features">
-                    <li><i class="fas fa-check"></i> Toutes les commandes de base</li>
-                    <li><i class="fas fa-check"></i> Système d'économie</li>
-                    <li><i class="fas fa-check"></i> 3 mini-jeux</li>
-                    <li><i class="fas fa-check"></i> Modération basique</li>
-                    <li><i class="fas fa-check"></i> Système XP</li>
-                    <li class="disabled"><i class="fas fa-times"></i> IA illimitée</li>
-                    <li class="disabled"><i class="fas fa-times"></i> Statistiques avancées</li>
-                    <li class="disabled"><i class="fas fa-times"></i> Support prioritaire</li>
+                    <li><i class="fas fa-check"></i> <span class="translate" data-key="plans.free.f1">Toutes les commandes de base</span></li>
+                    <li><i class="fas fa-check"></i> <span class="translate" data-key="plans.free.f2">Système d'économie</span></li>
+                    <li><i class="fas fa-check"></i> <span class="translate" data-key="plans.free.f3">3 mini-jeux</span></li>
+                    <li><i class="fas fa-check"></i> <span class="translate" data-key="plans.free.f4">Modération basique</span></li>
+                    <li class="disabled"><i class="fas fa-times"></i> <span class="translate" data-key="plans.free.f5">IA illimitée</span></li>
                 </ul>
-                <button class="btn btn-secondary" style="width: 100%;">Plan actuel</button>
+                <button class="btn btn-secondary translate" data-key="plans.free.cta">Plan actuel</button>
             </div>
 
-            <div class="pricing-card featured" data-aos="zoom-in" data-aos-delay="100">
-                <div class="plan-name">Premium</div>
+            <div class="pricing-card featured">
+                <div class="plan-name translate" data-key="plans.premium.name">Premium</div>
                 <div class="plan-price plan-price gold">4.99€</div>
-                <div class="plan-period">par mois</div>
+                <div class="plan-period translate" data-key="plans.premium.period">par mois</div>
                 <ul class="plan-features">
-                    <li><i class="fas fa-check"></i> Tout du plan Gratuit</li>
-                    <li><i class="fas fa-check"></i> IA illimitée (Groq Premium)</li>
-                    <li><i class="fas fa-check"></i> Statistiques détaillées</li>
-                    <li><i class="fas fa-check"></i> Badge Premium</li>
-                    <li><i class="fas fa-check"></i> +5 jeux exclusifs</li>
-                    <li><i class="fas fa-check"></i> Personnalisation avancée</li>
-                    <li><i class="fas fa-check"></i> Absence de publicités</li>
-                    <li><i class="fas fa-check"></i> Support prioritaire 24/7</li>
+                    <li><i class="fas fa-check"></i> <span class="translate" data-key="plans.premium.f1">Tout du plan Gratuit</span></li>
+                    <li><i class="fas fa-check"></i> <span class="translate" data-key="plans.premium.f2">IA illimitée (Groq Premium)</span></li>
+                    <li><i class="fas fa-check"></i> <span class="translate" data-key="plans.premium.f3">Statistiques détaillées</span></li>
+                    <li><i class="fas fa-check"></i> <span class="translate" data-key="plans.premium.f4">Badge Premium</span></li>
+                    <li><i class="fas fa-check"></i> <span class="translate" data-key="plans.premium.f5">Support prioritaire 24/7</span></li>
                 </ul>
-                <button class="btn btn-primary" style="width: 100%; background: linear-gradient(135deg, var(--gold), #FFA500);">Obtenir Premium</button>
+                <button class="btn btn-primary" style="background: linear-gradient(135deg, var(--gold), #FFA500);" onclick="handlePayment()">
+                    <i class="fas fa-crown"></i>
+                    <span class="translate" data-key="plans.premium.cta">Obtenir Premium</span>
+                </button>
             </div>
 
-            <div class="pricing-card" data-aos="zoom-in" data-aos-delay="200">
-                <div class="plan-name">Entreprise</div>
+            <div class="pricing-card">
+                <div class="plan-name translate" data-key="plans.enterprise.name">Entreprise</div>
                 <div class="plan-price">Custom</div>
-                <div class="plan-period">Sur mesure</div>
+                <div class="plan-period translate" data-key="plans.enterprise.period">Sur mesure</div>
                 <ul class="plan-features">
-                    <li><i class="fas fa-check"></i> Tout du plan Premium</li>
-                    <li><i class="fas fa-check"></i> Bot dédié privé</li>
-                    <li><i class="fas fa-check"></i> Commandes personnalisées</li>
-                    <li><i class="fas fa-check"></i> API access</li>
-                    <li><i class="fas fa-check"></i> Dashboard web</li>
-                    <li><i class="fas fa-check"></i> Intégrations tierces</li>
-                    <li><i class="fas fa-check"></i> Formation personnalisée</li>
-                    <li><i class="fas fa-check"></i> Manager dédié</li>
+                    <li><i class="fas fa-check"></i> <span class="translate" data-key="plans.enterprise.f1">Tout du Premium</span></li>
+                    <li><i class="fas fa-check"></i> <span class="translate" data-key="plans.enterprise.f2">Bot dédié privé</span></li>
+                    <li><i class="fas fa-check"></i> <span class="translate" data-key="plans.enterprise.f3">Commandes personnalisées</span></li>
+                    <li><i class="fas fa-check"></i> <span class="translate" data-key="plans.enterprise.f4">API access</span></li>
+                    <li><i class="fas fa-check"></i> <span class="translate" data-key="plans.enterprise.f5">Manager dédié</span></li>
                 </ul>
-                <button class="btn btn-secondary" style="width: 100%;">Nous contacter</button>
+                <button class="btn btn-secondary translate" data-key="plans.enterprise.cta">Nous contacter</button>
             </div>
         </div>
     </section>
 
-    <!-- SECTION CONFIGURATION -->
+    <!-- CONFIG -->
     <section class="config" id="config">
-        <h2 class="section-title" data-aos="fade-up">Configurer ChillBS</h2>
-        <p class="section-subtitle" data-aos="fade-up">Personnalise le bot selon tes besoins</p>
+        <h2 class="section-title translate" data-key="config.title">Configurer ChillBS</h2>
+        <p class="section-subtitle translate" data-key="config.subtitle">Personnalise le bot selon tes besoins</p>
         
-        <div class="config-container" data-aos="fade-up">
-            <div class="config-tabs">
-                <button class="tab-btn active" onclick="switchTab('general')">
-                    <i class="fas fa-cog"></i> Général
-                </button>
-                <button class="tab-btn" onclick="switchTab('commands')">
-                    <i class="fas fa-terminal"></i> Commandes
-                </button>
-                <button class="tab-btn" onclick="switchTab('channels')">
-                    <i class="fas fa-hashtag"></i> Salons
-                </button>
-                <button class="tab-btn" onclick="switchTab('moderation')">
-                    <i class="fas fa-shield-alt"></i> Modération
-                </button>
-                <button class="tab-btn" onclick="switchTab('economy')">
-                    <i class="fas fa-coins"></i> Économie
-                </button>
+        <div class="config-container">
+            <div class="locked-overlay" id="config-locked">
+                <div class="locked-content">
+                    <i class="fas fa-lock"></i>
+                    <h3 class="translate" data-key="config.locked">Configuration verrouillée</h3>
+                    <p class="translate" data-key="config.lockedtext">Connecte-toi pour sauvegarder tes configurations</p>
+                    <button class="btn btn-primary" onclick="openModal('login')" style="margin-top: 1rem;">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span class="translate" data-key="nav.login">Connexion</span>
+                    </button>
+                </div>
             </div>
 
-            <!-- TAB GENERAL -->
-            <div class="tab-content active" id="tab-general">
-                <div class="config-panel">
-                    <h3 style="margin-bottom: 2rem;">⚙️ Configuration Générale</h3>
-                    
-                    <div class="form-group">
-                        <label>Préfixe du bot (optionnel)</label>
-                        <input type="text" placeholder="!" value="!">
-                        <small>Préfixe pour les commandes textuelles (ex: !level)</small>
-                    </div>
+            <div class="config-panel">
+                <div class="config-tabs">
+                    <button class="tab-btn active" onclick="switchTab('general')">
+                        <i class="fas fa-cog"></i> <span class="translate" data-key="config.tabs.general">Général</span>
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('channels')">
+                        <i class="fas fa-hashtag"></i> <span class="translate" data-key="config.tabs.channels">Salons</span>
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('moderation')">
+                        <i class="fas fa-shield-alt"></i> <span class="translate" data-key="config.tabs.moderation">Modération</span>
+                    </button>
+                </div>
 
+                <div class="tab-content active" id="tab-general">
+                    <h3 class="translate" data-key="config.general.title" style="margin-bottom: 2rem;">⚙️ Configuration Générale</h3>
                     <div class="form-group">
-                        <label>Langue du bot</label>
-                        <select>
-                            <option selected>Français 🇫🇷</option>
-                            <option>English 🇬🇧</option>
-                            <option>Español 🇪🇸</option>
+                        <label class="translate" data-key="config.general.prefix">Préfixe du bot</label>
+                        <input type="text" id="config-prefix" value="!">
+                    </div>
+                    <div class="form-group">
+                        <label class="translate" data-key="config.general.lang">Langue du bot</label>
+                        <select id="config-lang">
+                            <option value="fr">Français 🇫🇷</option>
+                            <option value="en">English 🇬🇧</option>
                         </select>
                     </div>
-
-                    <div class="form-group">
-                        <label style="display: flex; align-items: center; gap: 1rem;">
-                            <span>Mode Debug</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox">
-                                <span class="slider"></span>
-                            </label>
-                        </label>
-                        <small>Affiche les logs détaillés dans la console</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label style="display: flex; align-items: center; gap: 1rem;">
-                            <span>Messages de bienvenue</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </label>
-                    </div>
-
-                    <button class="btn btn-primary save-btn">
-                        <i class="fas fa-save"></i> Sauvegarder les modifications
-                    </button>
                 </div>
-            </div>
 
-            <!-- TAB COMMANDES -->
-            <div class="tab-content" id="tab-commands">
-                <div class="config-panel">
-                    <h3 style="margin-bottom: 2rem;">🎮 Gestion des Commandes</h3>
-                    
-                    <div class="config-grid">
-                        <div class="command-item">
-                            <div class="command-info">
-                                <h4>/ia</h4>
-                                <p>Intelligence artificielle</p>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="command-item">
-                            <div class="command-info">
-                                <h4>/balance</h4>
-                                <p>Voir son argent</p>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="command-item">
-                            <div class="command-info">
-                                <h4>/daily</h4>
-                                <p>Récompense quotidienne</p>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="command-item">
-                            <div class="command-info">
-                                <h4>/work</h4>
-                                <p>Travailler pour des coins</p>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="command-item">
-                            <div class="command-info">
-                                <h4>/coinflip</h4>
-                                <p>Pile ou Face</p>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="command-item">
-                            <div class="command-info">
-                                <h4>/pendu</h4>
-                                <p>Jeu du pendu</p>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="command-item">
-                            <div class="command-info">
-                                <h4>/morpion</h4>
-                                <p>Jouer au morpion</p>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="command-item">
-                            <div class="command-info">
-                                <h4>/blague</h4>
-                                <p>Blague aléatoire</p>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
+                <div class="tab-content" id="tab-channels">
+                    <h3 class="translate" data-key="config.channels.title" style="margin-bottom: 2rem;">#️⃣ Configuration des Salons</h3>
+                    <div class="form-group">
+                        <label class="translate" data-key="config.channels.tickets">📩 Salon Tickets</label>
+                        <input type="text" id="config-tickets" value="🎟️・tickets">
                     </div>
-
-                    <button class="btn btn-primary save-btn">
-                        <i class="fas fa-save"></i> Sauvegarder
-                    </button>
+                    <div class="form-group">
+                        <label class="translate" data-key="config.channels.welcome">👋 Salon Bienvenue</label>
+                        <input type="text" id="config-welcome" value="bienvenue👋">
+                    </div>
+                    <div class="form-group">
+                        <label class="translate" data-key="config.channels.suggestions">💡 Salon Suggestions</label>
+                        <input type="text" id="config-suggestions" value="🗳️・suggestions">
+                    </div>
                 </div>
-            </div>
 
-            <!-- TAB SALONS -->
-            <div class="tab-content" id="tab-channels">
-                <div class="config-panel">
-                    <h3 style="margin-bottom: 2rem;">#️⃣ Configuration des Salons</h3>
-                    
+                <div class="tab-content" id="tab-moderation">
+                    <h3 class="translate" data-key="config.moderation.title" style="margin-bottom: 2rem;">🛡️ Configuration Modération</h3>
                     <div class="form-group">
-                        <label>📩 Salon Tickets</label>
-                        <input type="text" placeholder="#tickets" value="🎟️・tickets">
-                        <small>Où les membres peuvent créer des tickets</small>
+                        <label class="translate" data-key="config.moderation.staffrole">Rôle Staff</label>
+                        <input type="text" id="config-staffrole" value="Staff 👨‍⚖️">
                     </div>
-
                     <div class="form-group">
-                        <label>👨‍⚖️ Salon Staff (tickets en attente)</label>
-                        <input type="text" placeholder="#ticket-staff" value="ticket-staff👨‍⚖️🎟️">
-                        <small>Validation des tickets par le staff</small>
+                        <label class="translate" data-key="config.moderation.muterole">Rôle Mute</label>
+                        <input type="text" id="config-muterole" value="Muted">
                     </div>
-
                     <div class="form-group">
-                        <label>💡 Salon Suggestions</label>
-                        <input type="text" placeholder="#suggestions" value="🗳️・suggestions">
-                        <small>Les membres proposent des idées</small>
+                        <label class="translate" data-key="config.moderation.badwords">Mots interdits (séparés par des virgules)</label>
+                        <textarea id="config-badwords" rows="3">putain, merde, con, connard</textarea>
                     </div>
-
-                    <div class="form-group">
-                        <label>📊 Salon Sondages</label>
-                        <input type="text" placeholder="#sondages" value="📩・sondage">
-                        <small>Création de sondages communautaires</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label>🆙 Salon Niveaux</label>
-                        <input type="text" placeholder="#niveaux" value="🆙・niveaux">
-                        <small>Annonces de level up</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label>🎰 Salon Loto</label>
-                        <input type="text" placeholder="#loto" value="🎰・loto">
-                        <small>Loto hebdomadaire automatique</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label>🏆 Salon Succès</label>
-                        <input type="text" placeholder="#succès" value="✌️・succès">
-                        <small>Annonces de succès débloqués</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label>🔐 Salon Logs</label>
-                        <input type="text" placeholder="#logs" value="logs🔐">
-                        <small>Logs de modération (staff only)</small>
-                    </div>
-
-                    <button class="btn btn-primary save-btn">
-                        <i class="fas fa-save"></i> Sauvegarder
-                    </button>
                 </div>
-            </div>
 
-            <!-- TAB MODERATION -->
-            <div class="tab-content" id="tab-moderation">
-                <div class="config-panel">
-                    <h3 style="margin-bottom: 2rem;">🛡️ Configuration Modération</h3>
-                    
-                    <div class="form-group">
-                        <label>Rôle Staff</label>
-                        <input type="text" placeholder="@Staff" value="Staff 👨‍⚖️">
-                        <small>Rôle qui peut utiliser les commandes de modération</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Rôle Admin</label>
-                        <input type="text" placeholder="@Admin" value="Admin">
-                        <small>Rôle qui peut valider les actions de modération</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Rôle Mute</label>
-                        <input type="text" placeholder="@Muted" value="Muted">
-                        <small>Rôle donné lors d'un mute</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label style="display: flex; align-items: center; gap: 1rem;">
-                            <span>Anti-Spam activé</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </label>
-                        <small>Détecte et sanctionne le spam automatiquement</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label style="display: flex; align-items: center; gap: 1rem;">
-                            <span>Anti-Liens activé</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </label>
-                        <small>Bloque les liens dans les salons non autorisés</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label style="display: flex; align-items: center; gap: 1rem;">
-                            <span>Filtre de gros mots</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </label>
-                        <small>Supprime automatiquement les insultes</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Mots interdits (séparés par des virgules)</label>
-                        <textarea placeholder="putain, merde, con...">putain, merde, con, connard</textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Auto-mute après X warns</label>
-                        <input type="number" value="3" min="1" max="10">
-                        <small>Nombre de warns avant un mute automatique</small>
-                    </div>
-
-                    <button class="btn btn-primary save-btn">
-                        <i class="fas fa-save"></i> Sauvegarder
-                    </button>
-                </div>
-            </div>
-
-            <!-- TAB ECONOMIE -->
-            <div class="tab-content" id="tab-economy">
-                <div class="config-panel">
-                    <h3 style="margin-bottom: 2rem;">💰 Configuration Économie</h3>
-                    
-                    <div class="form-group">
-                        <label>Coins par message</label>
-                        <input type="number" value="1" min="0" max="100">
-                        <small>Combien de coins gagnés par message envoyé</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label>XP par message</label>
-                        <input type="number" value="10" min="0" max="100">
-                        <small>Combien d'XP gagnés par message</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Récompense /daily (min - max)</label>
-                        <div style="display: flex; gap: 1rem;">
-                            <input type="number" value="100" min="0" placeholder="Min">
-                            <input type="number" value="300" min="0" placeholder="Max">
-                        </div>
-                        <small>Montant aléatoire pour la commande /daily</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Récompense /work (min - max)</label>
-                        <div style="display: flex; gap: 1rem;">
-                            <input type="number" value="50" min="0" placeholder="Min">
-                            <input type="number" value="150" min="0" placeholder="Max">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Rôle VIP (attribué au niveau X)</label>
-                        <input type="number" value="5" min="1" max="100">
-                        <small>Niveau requis pour obtenir le rôle VIP automatiquement</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Nom du rôle VIP</label>
-                        <input type="text" value="Membre VIP">
-                    </div>
-
-                    <div class="form-group">
-                        <label style="display: flex; align-items: center; gap: 1rem;">
-                            <span>Loto hebdomadaire activé</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </label>
-                        <small>Lance automatiquement un loto chaque semaine</small>
-                    </div>
-
-                    <button class="btn btn-primary save-btn">
-                        <i class="fas fa-save"></i> Sauvegarder
-                    </button>
-                </div>
+                <button class="btn btn-primary" onclick="saveConfig()" style="width: 100%; margin-top: 2rem;">
+                    <i class="fas fa-save"></i>
+                    <span class="translate" data-key="config.save">Sauvegarder les modifications</span>
+                </button>
             </div>
         </div>
     </section>
 
-    <footer id="footer">
-        <div class="footer-content">
-            <div class="logo" style="justify-content: center; margin-bottom: 2rem;">
-                <i class="fas fa-robot"></i>
-                ChillBS Bot
-            </div>
-            
-            <div class="social-links">
-                <a href="https://discord.gg/ton-serveur" target="_blank"><i class="fab fa-discord"></i></a>
-                <a href="https://github.com/ton-github" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="https://twitter.com/ton-twitter" target="_blank"><i class="fab fa-twitter"></i></a>
-            </div>
-            
-            <p style="color: var(--text-dim); margin-top: 2rem;">
-                © 2024 ChillBS Bot. Tous droits réservés.<br>
-                Made with ❤️ for Discord Communities
-            </p>
+    <!-- FOOTER -->
+    <footer>
+        <div class="logo" style="justify-content: center; margin-bottom: 2rem;">
+            <i class="fas fa-robot"></i>
+            ChillBS Bot
         </div>
+        <p style="color: var(--text-dim);">
+            © 2024 ChillBS Bot. <span class="translate" data-key="footer.rights">Tous droits réservés</span>.<br>
+            Made with ❤️ for Discord Communities
+        </p>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
-        AOS.init({
-            duration: 1000,
-            once: true,
-            offset: 100
-        });
-
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 80, density: { enable: true, value_area: 800 } },
-                color: { value: '#5865F2' },
-                shape: { type: 'circle' },
-                opacity: { value: 0.5, random: true },
-                size: { value: 3, random: true },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#5865F2',
-                    opacity: 0.4,
-                    width: 1
+        // === TRADUCTIONS === //
+        const translations = {
+            fr: {
+                nav: { home: "Accueil", features: "Fonctionnalités", premium: "Premium", config: "Configurer", login: "Connexion", signup: "S'inscrire" },
+                hero: { description: "Le bot Discord ultime avec IA conversationnelle, économie, jeux et modération avancée. Transforme ton serveur en une expérience interactive inoubliable ! 🚀", invite: "Inviter le Bot", configure: "Configurer" },
+                stats: { servers: "Serveurs", users: "Utilisateurs", commands: "Commandes" },
+                features: { 
+                    title: "Fonctionnalités Incroyables", 
+                    subtitle: "Tout ce dont tu as besoin pour un serveur parfait",
+                    ai: { title: "IA Conversationnelle", desc: "Discute avec une IA puissante propulsée par Groq. Obtiens des réponses instantanées et naturelles !" },
+                    economy: { title: "Économie Complète", desc: "Système de coins, boutique, travail, récompenses quotidiennes et bien plus encore !" },
+                    games: { title: "Mini-Jeux", desc: "Pendu, Morpion, Pile ou Face... Amuse-toi avec tes amis et gagne des récompenses !" },
+                    moderation: { title: "Modération Avancée", desc: "Système de warns, mute, kick, ban avec validation admin. Anti-spam et anti-liens intégrés." },
+                    achievements: { title: "Succès & XP", desc: "Gagne de l'XP en chattant, débloque des succès et obtiens des récompenses automatiques !" },
+                    tickets: { title: "Tickets & Support", desc: "Système de tickets professionnel pour gérer les demandes de tes membres efficacement." }
                 },
-                move: {
-                    enable: true,
-                    speed: 2
-                }
-            },
-            interactivity: {
-                detect_on: 'canvas',
-                events: {
-                    onhover: { enable: true, mode: 'repulse' },
-                    onclick: { enable: true, mode: 'push' }
-                }
+                premium: { title: "Premium Plans", subtitle: "Unlock ChillBS Bot's full potential" },
+                plans: {
+                    free: { name: "Free", period: "Forever", f1: "All basic commands", f2: "Economy system", f3: "3 mini-games", f4: "Basic moderation", f5: "Unlimited AI", cta: "Current Plan" },
+                    premium: { name: "Premium", period: "per month", f1: "Everything in Free", f2: "Unlimited AI (Groq Premium)", f3: "Detailed statistics", f4: "Premium Badge", f5: "24/7 priority support", cta: "Get Premium" },
+                    enterprise: { name: "Enterprise", period: "Custom", f1: "Everything in Premium", f2: "Private dedicated bot", f3: "Custom commands", f4: "API access", f5: "Dedicated manager", cta: "Contact Us" }
+                },
+                config: {
+                    title: "Configure ChillBS",
+                    subtitle: "Customize the bot to your needs",
+                    locked: "Configuration Locked",
+                    lockedtext: "Login to save your configurations",
+                    save: "Save changes",
+                    tabs: { general: "General", channels: "Channels", moderation: "Moderation" },
+                    general: { title: "⚙️ General Configuration", prefix: "Bot prefix", lang: "Bot language" },
+                    channels: { title: "#️⃣ Channels Configuration", tickets: "📩 Tickets Channel", welcome: "👋 Welcome Channel", suggestions: "💡 Suggestions Channel" },
+                    moderation: { title: "🛡️ Moderation Configuration", staffrole: "Staff Role", muterole: "Mute Role", badwords: "Forbidden words (comma separated)" }
+                },
+                login: { title: "Login", email: "Email", password: "Password", submit: "Sign In", noaccount: "No account?", signup: "Sign Up" },
+                signup: { title: "Sign Up", username: "Username", email: "Email", password: "Password", submit: "Create Account", hasaccount: "Already have an account?", login: "Login" },
+                user: { dashboard: "Dashboard", logout: "Logout" },
+                footer: { rights: "All rights reserved" }
             }
-        });
+        };
 
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
+        let currentLang = localStorage.getItem('lang') || 'fr';
+
+        function updateTranslations() {
+            document.querySelectorAll('.translate').forEach(el => {
+                const key = el.getAttribute('data-key');
+                const keys = key.split('.');
+                let value = translations[currentLang];
+                
+                for (const k of keys) {
+                    value = value?.[k];
+                }
+                
+                if (value) el.textContent = value;
+            });
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'fr' ? 'en' : 'fr';
+            localStorage.setItem('lang', currentLang);
+            document.getElementById('lang-text').textContent = currentLang.toUpperCase();
+            updateTranslations();
+        }
+
+        // === AUTH === //
+        function openModal(type) {
+            document.getElementById(type + '-modal').classList.add('active');
+        }
+
+        function closeModal(type) {
+            document.getElementById(type + '-modal').classList.remove('active');
+        }
+
+        function switchModal(from, to) {
+            closeModal(from);
+            setTimeout(() => openModal(to), 300);
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                showUserMenu(user);
+                closeModal('login');
+                unlockConfig();
+                loadUserConfig(user);
+                alert('✅ Connexion réussie !');
             } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        function animateCounter(element, target, duration = 2000) {
-            let start = 0;
-            const increment = target / (duration / 16);
-            const timer = setInterval(() => {
-                start += increment;
-                if (start >= target) {
-                    element.textContent = target.toLocaleString();
-                    clearInterval(timer);
-                } else {
-                    element.textContent = Math.floor(start).toLocaleString();
-                }
-            }, 16);
-        }
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const numbers = entry.target.querySelectorAll('.stat-number');
-                    numbers.forEach(num => {
-                        const target = parseInt(num.getAttribute('data-target'));
-                        animateCounter(num, target);
-                    });
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        observer.observe(document.querySelector('.stats'));
-
-        // Smooth scroll
-        function scrollToSection(id) {
-            const element = document.getElementById(id);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                alert('❌ Email ou mot de passe incorrect');
             }
         }
 
-        // Tab switching
-        function switchTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
+        function handleSignup(e) {
+            e.preventDefault();
+            const username = document.getElementById('signup-username').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
             
-            // Remove active from all buttons
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
             
-            // Show selected tab
-            document.getElementById('tab-' + tabName).classList.add('active');
+            if (users.find(u => u.email === email)) {
+                alert('❌ Cet email est déjà utilisé');
+                return;
+            }
             
-            // Mark button as active
+            const newUser = {
+                id: Date.now(),
+                username,
+                email,
+                password,
+                plan: 'free',
+                config: {
+                    prefix: '!',
+                    lang: 'fr',
+                    tickets: '🎟️・tickets',
+                    welcome: 'bienvenue👋',
+                    suggestions: '🗳️・suggestions',
+                    staffrole: 'Staff 👨‍⚖️',
+                    muterole: 'Muted',
+                    badwords: 'putain, merde, con, connard'
+                }
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            
+            showUserMenu(newUser);
+            closeModal('signup');
+            unlockConfig();
+            loadUserConfig(newUser);
+            alert('✅ Compte créé avec succès !');
+        }
+
+        function showUserMenu(user) {
+            document.querySelector('.auth-btns').style.display = 'none';
+            document.querySelector('.user-menu').classList.add('active');
+            document.getElementById('user-initial').textContent = user.username[0].toUpperCase();
+        }
+
+        function toggleDropdown() {
+            document.getElementById('dropdown').classList.toggle('show');
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            document.querySelector('.auth-btns').style.display = 'flex';
+            document.querySelector('.user-menu').classList.remove('active');
+            lockConfig();
+            alert('👋 Déconnexion réussie');
+        }
+
+        function unlockConfig() {
+            document.getElementById('config-locked').style.display = 'none';
+        }
+
+        function lockConfig() {
+            document.getElementById('config-locked').style.display = 'flex';
+        }
+
+        function loadUserConfig(user) {
+            if (user.config) {
+                document.getElementById('config-prefix').value = user.config.prefix || '!';
+                document.getElementById('config-lang').value = user.config.lang || 'fr';
+                document.getElementById('config-tickets').value = user.config.tickets || '🎟️・tickets';
+                document.getElementById('config-welcome').value = user.config.welcome || 'bienvenue👋';
+                document.getElementById('config-suggestions').value = user.config.suggestions || '🗳️・suggestions';
+                document.getElementById('config-staffrole').value = user.config.staffrole || 'Staff 👨‍⚖️';
+                document.getElementById('config-muterole').value = user.config.muterole || 'Muted';
+                document.getElementById('config-badwords').value = user.config.badwords || 'putain, merde, con, connard';
+            }
+        }
+
+        function saveConfig() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user) {
+                alert('⚠️ Connecte-toi pour sauvegarder');
+                return;
+            }
+            
+            user.config = {
+                prefix: document.getElementById('config-prefix').value,
+                lang: document.getElementById('config-lang').value,
+                tickets: document.getElementById('config-tickets').value,
+                welcome: document.getElementById('config-welcome').value,
+                suggestions: document.getElementById('config-suggestions').value,
+                staffrole: document.getElementById('config-staffrole').value,
+                muterole: document.getElementById('config-muterole').value,
+                badwords: document.getElementById('config-badwords').value
+            };
+            
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const index = users.findIndex(u => u.id === user.id);
+            if (index !== -1) {
+                users[index] = user;
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            
+            alert('✅ Configuration sauvegardée !');
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById('tab-' + tab).classList.add('active');
             event.target.closest('.tab-btn').classList.add('active');
         }
 
-        // Save button alerts
-        document.querySelectorAll('.save-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                btn.innerHTML = '<i class="fas fa-check"></i> Sauvegardé !';
-                btn.style.background = 'linear-gradient(135deg, var(--success), #2ecc71)';
+        // === PAYMENT === //
+        function handlePayment() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user) {
+                alert('⚠️ Connecte-toi pour acheter Premium');
+                openModal('login');
+                return;
+            }
+            
+            const confirmed = confirm(`💳 Passer à PREMIUM pour 4.99€/mois ?\n\n✅ IA illimitée\n✅ Statistiques avancées\n✅ Support prioritaire\n\n⚠️ Ceci est une DÉMO.\n\nEn production, utilise Stripe:\nhttps://stripe.com/docs/payments/accept-a-payment\n\nOu PayPal:\nhttps://developer.paypal.com/`);
+            
+            if (confirmed) {
+                user.plan = 'premium';
+                localStorage.setItem('currentUser', JSON.stringify(user));
                 
-                setTimeout(() => {
-                    btn.innerHTML = '<i class="fas fa-save"></i> Sauvegarder les modifications';
-                    btn.style.background = '';
-                }, 2000);
+                const users = JSON.parse(localStorage.getItem('users') || '[]');
+                const index = users.findIndex(u => u.id === user.id);
+                if (index !== -1) {
+                    users[index] = user;
+                    localStorage.setItem('users', JSON.stringify(users));
+                }
+                
+                alert('🎉 Bienvenue dans Premium ! Toutes les fonctionnalités sont débloquées.');
+            }
+        }
+
+        // === UTILS === //
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function animateCounter(el, target) {
+            let count = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                count += increment;
+                if (count >= target) {
+                    el.textContent = Math.floor(target).toLocaleString();
+                    clearInterval(timer);
+                } else {
+                    el.textContent = Math.floor(count).toLocaleString();
+                }
+            }, 20);
+        }
+
+        // === INIT === //
+        window.addEventListener('DOMContentLoaded', () => {
+            // Particles
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80 },
+                    color: { value: '#5865F2' },
+                    shape: { type: 'circle' },
+                    size: { value: 3, random: true },
+                    line_linked: { enable: true, distance: 150, color: '#5865F2', opacity: 0.4, width: 1 },
+                    move: { enable: true, speed: 2 }
+                },
+                interactivity: {
+                    events: { onhover: { enable: true, mode: 'repulse' } }
+                }
+            });
+
+            // Stats animation
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.querySelectorAll('.stat-number').forEach(num => {
+                            animateCounter(num, parseInt(num.getAttribute('data-target')));
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            observer.observe(document.querySelector('.stats'));
+
+            // Check if logged in
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (user) {
+                showUserMenu(user);
+                unlockConfig();
+                loadUserConfig(user);
+            }
+
+            // Load language
+            document.getElementById('lang-text').textContent = currentLang.toUpperCase();
+            updateTranslations();
+
+            // Navbar scroll
+            window.addEventListener('scroll', () => {
+                document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
             });
         });
     </script>
 </body>
-</html>
+</html> title: "Plans Premium", subtitle: "Débloque tout le potentiel de ChillBS Bot" },
+                plans: {
+                    free: { name: "Gratuit", period: "Pour toujours", f1: "Toutes les commandes de base", f2: "Système d'économie", f3: "3 mini-jeux", f4: "Modération basique", f5: "IA illimitée", cta: "Plan actuel" },
+                    premium: { name: "Premium", period: "par mois", f1: "Tout du plan Gratuit", f2: "IA illimitée (Groq Premium)", f3: "Statistiques détaillées", f4: "Badge Premium", f5: "Support prioritaire 24/7", cta: "Obtenir Premium" },
+                    enterprise: { name: "Entreprise", period: "Sur mesure", f1: "Tout du Premium", f2: "Bot dédié privé", f3: "Commandes personnalisées", f4: "API access", f5: "Manager dédié", cta: "Nous contacter" }
+                },
+                config: {
+                    title: "Configurer ChillBS",
+                    subtitle: "Personnalise le bot selon tes besoins",
+                    locked: "Configuration verrouillée",
+                    lockedtext: "Connecte-toi pour sauvegarder tes configurations",
+                    save: "Sauvegarder les modifications",
+                    tabs: { general: "Général", channels: "Salons", moderation: "Modération" },
+                    general: { title: "⚙️ Configuration Générale", prefix: "Préfixe du bot", lang: "Langue du bot" },
+                    channels: { title: "#️⃣ Configuration des Salons", tickets: "📩 Salon Tickets", welcome: "👋 Salon Bienvenue", suggestions: "💡 Salon Suggestions" },
+                    moderation: { title: "🛡️ Configuration Modération", staffrole: "Rôle Staff", muterole: "Rôle Mute", badwords: "Mots interdits (séparés par des virgules)" }
+                },
+                login: { title: "Connexion", email: "Email", password: "Mot de passe", submit: "Se connecter", noaccount: "Pas de compte ?", signup: "S'inscrire" },
+                signup: { title: "Inscription", username: "Nom d'utilisateur", email: "Email", password: "Mot de passe", submit: "Créer un compte", hasaccount: "Déjà un compte ?", login: "Se connecter" },
+                user: { dashboard: "Dashboard", logout: "Déconnexion" },
+                footer: { rights: "Tous droits réservés" }
+            },
+            en: {
+                nav: { home: "Home", features: "Features", premium: "Premium", config: "Configure", login: "Login", signup: "Sign Up" },
+                hero: { description: "The ultimate Discord bot with conversational AI, economy, games and advanced moderation. Transform your server into an unforgettable interactive experience! 🚀", invite: "Invite Bot", configure: "Configure" },
+                stats: { servers: "Servers", users: "Users", commands: "Commands" },
+                features: {
+                    title: "Amazing Features",
+                    subtitle: "Everything you need for a perfect server",
+                    ai: { title: "Conversational AI", desc: "Chat with a powerful AI powered by Groq. Get instant and natural responses!" },
+                    economy: { title: "Complete Economy", desc: "Coin system, shop, work, daily rewards and much more!" },
+                    games: { title: "Mini-Games", desc: "Hangman, Tic-Tac-Toe, Coinflip... Have fun with friends and earn rewards!" },
+                    moderation: { title: "Advanced Moderation", desc: "Warn, mute, kick, ban system with admin validation. Anti-spam and anti-links included." },
+                    achievements: { title: "Achievements & XP", desc: "Earn XP by chatting, unlock achievements and get automatic rewards!" },
+                    tickets: { title: "Tickets & Support", desc: "Professional ticket system to manage member requests efficiently." }
+                },
+                premium: {
